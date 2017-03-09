@@ -13,6 +13,7 @@ def root_to_array_helper(files, treename=None, branches=None):
     arr = root2array(files, treename, branches)
     print('*** End conversion of ROOT tuple to numpy array ***')
     print ('Finished tree: {}'.format(treename))
+    return arr
 
 
 
