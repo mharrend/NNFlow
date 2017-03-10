@@ -251,7 +251,7 @@ class BinaryMLP:
                                  trainable=False,  name='x_mean')
             x_std = tf.Variable(np.std(train_data.x, axis=0).astype(np.float32),
                                 trainable=False,  name='x_std')
-            x_scaled = tf.div(tf.sub(x, x_mean), x_std, name='x_scaled')
+            x_scaled = tf.div(tf.subtract(x, x_mean), x_std, name='x_scaled')
 
             weights, biases = self._get_parameters()
 
@@ -261,9 +261,9 @@ class BinaryMLP:
             yy_ = tf.nn.sigmoid(self._model(x_scaled, weights, biases))
 
             # loss function
-            xentropy = tf.nn.sigmoid_cross_entropy_with_logits(y_, y)
+            xentropy = tf.nn.sigmoid_cross_entropy_with_logits(logits=y_, labels=y)
             l2_reg = beta*self._l2_regularization(weights)
-            loss = tf.add(tf.reduce_mean(tf.mul(w, xentropy)), l2_reg,
+            loss = tf.add(tf.reduce_mean(tf.multiply(w, xentropy)), l2_reg,
                                   name='loss')
 
             # optimizer
@@ -405,7 +405,7 @@ class BinaryMLP:
             x = tf.placeholder(tf.float32, [None, self.n_variables])
             x_mean = tf.Variable(-1.0, validate_shape=False,  name='x_mean')
             x_std = tf.Variable(-1.0, validate_shape=False,  name='x_std')
-            x_scaled = tf.div(tf.sub(x, x_mean), x_std, name='x_scaled')
+            x_scaled = tf.div(tf.subtract(x, x_mean), x_std, name='x_scaled')
             y=  tf.nn.sigmoid(self._model(x_scaled, weights, biases))
             
             saver = tf.train.Saver()
@@ -436,7 +436,7 @@ class BinaryMLP:
                                name='input_node')
             x_mean = tf.Variable(-1.0, validate_shape=False,  name='x_mean')
             x_std = tf.Variable(-1.0, validate_shape=False,  name='x_std')
-            x_scaled = tf.div(tf.sub(x, x_mean), x_std, name='x_scaled')
+            x_scaled = tf.div(tf.subtract(x, x_mean), x_std, name='x_scaled')
             y = tf.nn.sigmoid(self._model(x_scaled, weights, biases),
                              name='output_node')
             

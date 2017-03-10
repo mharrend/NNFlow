@@ -17,7 +17,7 @@ my_branches = ['branch_1', 'branch_2']
 
 convert_root_to_array(save_to, name, ntuples, tree=my_tree, branches=my_branches, threadFiles=-1, compressFile=True)
 ```
-* If there is only one TTree in the nTuple you do not have to provide the name of the tree which should be converted.
+* If there are several TTrees only distinguished by a number (e.g. xyTree;1, xyTree;2, ...), you only have to provide the common part of the name (xyTree).
 * If you want to convert all branches of a tree, do not provide a branchlist.
 * NOTE: The array the data is saved to is of type np.structure_array (https://docs.scipy.org/doc/numpy/user/basics.rec.html) while several arrays are saved into a single file in a (un)compressed .npz format.
 * The preprocessing is making use of threading by default if you give more than one branch name.
@@ -99,10 +99,10 @@ To reuse a model in a different script, you can use the same script without the 
 
 ## Dependencies
 Tested with
-* tensorflow (0.12.0rc1)
-* numpy (1.11.2)
-* matplotlib (1.5.3)
+* tensorflow_gpu (1.0.1)
+* numpy (1.12.0)
+* matplotlib (2.0.0)
 * scikit-learn (0.18.1)
-* root-numpy (4.5.2)
-* graphviz (0.5.1)
+* root-numpy (4.7.2)
+* graphviz (0.6)
 

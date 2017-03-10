@@ -1,0 +1,57 @@
+--------------------------------------------------------------------------------
+Processing file 'NNFlow/NNFlow/binary_mlp_tf0.12.py'
+ outputting to 'NNFlow/NNFlow/binary_mlp.py'
+--------------------------------------------------------------------------------
+
+'NNFlow/NNFlow/binary_mlp_tf0.12.py' Line 264
+--------------------------------------------------------------------------------
+
+Added keyword 'logits' to reordered function 'tf.nn.sigmoid_cross_entropy_with_logits'
+Added keyword 'labels' to reordered function 'tf.nn.sigmoid_cross_entropy_with_logits'
+
+    Old:             xentropy = tf.nn.sigmoid_cross_entropy_with_logits(y_, y)
+                                                                               
+    New:             xentropy = tf.nn.sigmoid_cross_entropy_with_logits(logits=y_, labels=y)
+                                                                        ~~~~~~~    ~~~~~~~   
+
+'NNFlow/NNFlow/binary_mlp_tf0.12.py' Line 408
+--------------------------------------------------------------------------------
+
+Renamed function 'tf.sub' to 'tf.subtract'
+
+    Old:             x_scaled = tf.div(tf.sub(x, x_mean), x_std, name='x_scaled')
+                                       ~~~~~~                                     
+    New:             x_scaled = tf.div(tf.subtract(x, x_mean), x_std, name='x_scaled')
+                                       ~~~~~~~~~~~                                     
+
+'NNFlow/NNFlow/binary_mlp_tf0.12.py' Line 266
+--------------------------------------------------------------------------------
+
+Renamed function 'tf.mul' to 'tf.multiply'
+
+    Old:             loss = tf.add(tf.reduce_mean(tf.mul(w, xentropy)), l2_reg,
+                                                  ~~~~~~                        
+    New:             loss = tf.add(tf.reduce_mean(tf.multiply(w, xentropy)), l2_reg,
+                                                  ~~~~~~~~~~~                        
+
+'NNFlow/NNFlow/binary_mlp_tf0.12.py' Line 254
+--------------------------------------------------------------------------------
+
+Renamed function 'tf.sub' to 'tf.subtract'
+
+    Old:             x_scaled = tf.div(tf.sub(x, x_mean), x_std, name='x_scaled')
+                                       ~~~~~~                                     
+    New:             x_scaled = tf.div(tf.subtract(x, x_mean), x_std, name='x_scaled')
+                                       ~~~~~~~~~~~                                     
+
+'NNFlow/NNFlow/binary_mlp_tf0.12.py' Line 439
+--------------------------------------------------------------------------------
+
+Renamed function 'tf.sub' to 'tf.subtract'
+
+    Old:             x_scaled = tf.div(tf.sub(x, x_mean), x_std, name='x_scaled')
+                                       ~~~~~~                                     
+    New:             x_scaled = tf.div(tf.subtract(x, x_mean), x_std, name='x_scaled')
+                                       ~~~~~~~~~~~                                     
+
+
