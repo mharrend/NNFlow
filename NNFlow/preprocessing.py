@@ -207,13 +207,15 @@ class GetVariables:
 
         array_list = []
         vars = []
+
+        number_of_saved_jets = 4 if self._category=='all' else int(self._category)//10
         
         for var in var_list:
             if var in jets:
-                # only keep the first four entries of the jet vector
-                array = [jet[:4] for jet in structured_array[var]]
+                # only keep the first entries of the jet vector depending on the category
+                array = [jet[:number_of_saved_jets] for jet in structured_array[var]]
                 array_list.append(np.vstack(array))
-                vars += [var+'_{}'.format(i) for i in range(1,5)]
+                vars += [var+'_{}'.format(i) for i in range(1,1+number_of_saved_jets)]
             else:
                 array = structured_array[var].reshape(-1,1)
                 array_list.append(array)
