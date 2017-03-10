@@ -99,10 +99,10 @@ To reuse a model in a different script, you can use the same script without the 
 
 ## Dependencies
 Tested with
-* tensorflow (0.12.0rc1)
-* numpy (1.11.2)
-* matplotlib (1.5.3)
+* tensorflow_gpu (1.0.1)
+* numpy (1.12.0)
+* matplotlib (2.0.0)
 * scikit-learn (0.18.1)
-* root-numpy (4.5.2)
-* graphviz (0.5.1)
+* root-numpy (4.7.2)
+* graphviz (0.6)
 
