@@ -13,6 +13,7 @@ def root_to_array_helper(files, treename=None, branches=None):
     arr = root2array(files, treename, branches)
     print('*** End conversion of ROOT tuple to numpy array ***')
     print ('Finished tree: {}'.format(treename))
+    return arr
 
 
 
@@ -185,7 +186,8 @@ class GetVariables:
         array_list = []
         for path in path_list:
             array = np.load(path)
-            array_list.append(array)
+            for f in array.files:
+                array_list.append(array[f])
         array = np.concatenate(array_list, axis=0)
 
         return array
