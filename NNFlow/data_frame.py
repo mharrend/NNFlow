@@ -39,6 +39,7 @@ class DataFrame:
         data_std = np.std(self.x, axis=0)
         if np.count_nonzero(data_std==0.0):
             print('Std of training data:')
-            print(data_std)
+            for i in range(len(data_std)):
+                print(str(i+1)+':', data_std[i])
             sys.exit('Remove Variable with std 0.0') 
 
