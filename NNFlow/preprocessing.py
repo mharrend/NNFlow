@@ -217,7 +217,7 @@ class GetVariables:
             if 'Jet_Deta_Jet' in var:
                 # only keep the first entries of the jet vector, number of saved jets depends on category, don't save variable that contains the relation of a jet to itself
                 reference_jet = int(var[-1])
-                array = [np.array([i for i in jet_vector if (i+1!=reference_jet and i<number_of_saved_jets)]) for jet_vector in structured_array[var]]
+                array = [np.array([jet_vector[i] for i in range(number_of_saved_jets) if i+1!=reference_jet]) for jet_vector in structured_array[var]]
                 array_list.append(np.vstack(array))
                 vars += [var+'_{}'.format(i) for i in range(1,1+number_of_saved_jets) if i!=reference_jet]
             elif var in jets:
