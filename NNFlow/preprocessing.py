@@ -158,8 +158,11 @@ class GetVariables:
     def run(self, sig_paths, bkg_paths):
 
         # load structured arrays
-        structured_sig = self._load_array(sig_paths)
-        structured_bkg = self._load_array(bkg_paths)
+        structured_sig_all = self._load_array(sig_paths)
+        structured_bkg_all = self._load_array(bkg_paths)
+
+        structured_sig = np.concatenate([event.reshape(-1) for event in structured_sig_all if self._belongs_to_category(event)])
+        structured_bkg = np.concatenate([event.reshape(-1) for event in structured_bkg_all if self._belongs_to_category(event)])
 
         # get all variables from self._vars from the structured array as an
         # 2d np.array
@@ -168,9 +171,6 @@ class GetVariables:
         
         sig['weights'] = self._get_unnormalized_weights(structured_sig)
         bkg['weights'] = self._get_unnormalized_weights(structured_bkg)
-
-        sig = self._get_category(sig, structured_sig)
-        bkg = self._get_category(bkg, structured_bkg)
         
         n_sig_events = sig['data'].shape[0]
         n_bkg_events = bkg['data'].shape[0]
@@ -195,7 +195,7 @@ class GetVariables:
     def _get_vars(self, structured_array, var_list):
         """Get _vars out of the structured array and place them into a 
         normal numpy ndarray. If the branch is vector like, only keep the first
-        four entries (jet variables).
+        entries (jet variables), the number of saved jets depends on category
         """
 
         # define vector like variables
@@ -207,13 +207,15 @@ class GetVariables:
 
         array_list = []
         vars = []
+
+        number_of_saved_jets = 4 if self._category=='all' else int(self._category)//10
         
         for var in var_list:
             if var in jets:
-                # only keep the first four entries of the jet vector
-                array = [jet[:4] for jet in structured_array[var]]
+                # only keep the first entries of the jet vector, number of saved jets depends on category
+                array = [jet[:number_of_saved_jets] for jet in structured_array[var]]
                 array_list.append(np.vstack(array))
-                vars += [var+'_{}'.format(i) for i in range(1,5)]
+                vars += [var+'_{}'.format(i) for i in range(1,1+number_of_saved_jets)]
             else:
                 array = structured_array[var].reshape(-1,1)
                 array_list.append(array)
@@ -264,34 +266,21 @@ class GetVariables:
         labels = np.full(shape=(n_events, 1), fill_value=label)
         return labels
     
-    def _get_category(self, data_dict, structured_array):
-        """Checks if the data belongs to the given category. Only keep events
-        that do.
+    def _belongs_to_category(self, event):
+        """Checks if the data belongs to the given category.
 
         Arguments
         ---------
-        data_dict : dict
-        Dictionary filled with event variables and corresponding weights.
-        structured_array : numpy structured array
-        Structured array converted from ROOT file.
+        event: event from structured array
         """
-        keep_events = []   
-        for event in range(structured_array.shape[0]):
-            N_LL = structured_array[event]['N_LooseLeptons']
-            N_TL = structured_array[event]['N_TightLeptons']
-            N_J = structured_array[event]['N_Jets']
-            N_BTM = structured_array[event]['N_BTagsM']
+        N_LL  = event['N_LooseLeptons']
+        N_TL  = event['N_TightLeptons']
+        N_J   = event['N_Jets']
+        N_BTM = event['N_BTagsM']
 
-            if self._check_category(N_LL, N_TL, N_J, N_BTM, self._category):
-                keep_events.append(event)
-            else:
-                continue
+        keep_event = self._check_category(N_LL, N_TL, N_J, N_BTM, self._category)
 
-        keep_dict = {'data': data_dict['data'][keep_events],
-                     'weights': data_dict['weights'][keep_events],
-                     'vars': data_dict['vars']}
-
-        return keep_dict
+        return keep_event
     
     def _check_category(self, N_LL, N_TL, N_J, N_BTM, name):
         """Returns category bool.
