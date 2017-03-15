@@ -200,8 +200,7 @@ class GetVariables:
 
         # define vector like variables
         jets = ['CSV', 'Jet_CSV', 'Jet_CosThetaStar_Lepton', 'Jet_CosTheta_cm',
-                'Jet_Deta_Jet1', 'Jet_Deta_Jet2','Jet_Deta_Jet3',
-                'Jet_Deta_Jet4','Jet_E','Jet_Eta','Jet_Flav','Jet_GenJet_Eta',
+                'Jet_E','Jet_Eta','Jet_Flav','Jet_GenJet_Eta',
                 'Jet_GenJet_Pt', 'Jet_M','Jet_PartonFlav', 'Jet_Phi',
                 'Jet_PileUpID', 'Jet_Pt']
 
@@ -211,13 +210,19 @@ class GetVariables:
         number_of_saved_jets = 4 if self._category=='all' else int(self._category)//10
         
         for var in var_list:
-
+            # Don't save the variable, if it's fixed due to category.
             if self._dont_keep_variable(var):
                 continue
-
-            if var in jets:
+ 
+            if 'Jet_Deta_Jet' in var:
+                # only keep the first entries of the jet vector, number of saved jets depends on category, don't save variable that contains the relation of a jet to itself
+                reference_jet = int(var[-1])
+                array = [np.array([i for i in jet_vector if (i+1!=reference_jet and i<number_of_saved_jets)]) for jet_vector in structured_array[var]]
+                array_list.append(np.vstack(array))
+                vars += [var+'_{}'.format(i) for i in range(1,1+number_of_saved_jets) if i!=reference_jet]
+            elif var in jets:
                 # only keep the first entries of the jet vector, number of saved jets depends on category
-                array = [jet[:number_of_saved_jets] for jet in structured_array[var]]
+                array = [jet_vector[:number_of_saved_jets] for jet_vector in structured_array[var]]
                 array_list.append(np.vstack(array))
                 vars += [var+'_{}'.format(i) for i in range(1,1+number_of_saved_jets)]
             else:
