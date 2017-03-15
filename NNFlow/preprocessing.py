@@ -231,9 +231,8 @@ class GetVariables:
     def _get_unnormalized_weights(self, structured_array):
         """Calculate the weight for eacht event.
 
-        For each event we weill calculate:
-        Weight_XS * Weight_CSV * Weight_pu69p2
-        Then, the weights are normalized, so that the sum over all weights is 
+        For each event we will calculate the product of the weights that occur in 'self._weights'.
+        In the function 'self._split_array', the weights are normalized, so that the sum over all weights is 
         equal to 1.
 
         Arguments
