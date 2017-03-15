@@ -211,6 +211,10 @@ class GetVariables:
         number_of_saved_jets = 4 if self._category=='all' else int(self._category)//10
         
         for var in var_list:
+
+            if self._dont_keep_variable(var):
+                continue
+
             if var in jets:
                 # only keep the first entries of the jet vector, number of saved jets depends on category
                 array = [jet[:number_of_saved_jets] for jet in structured_array[var]]
@@ -343,3 +347,19 @@ class GetVariables:
         np.save(self.save_in + '/train.npy', np.vstack((sig[0], bkg[0])))
         np.save(self.save_in + '/val.npy', np.vstack((sig[1], bkg[1])))
         np.save(self.save_in + '/test.npy', np.vstack((sig[2], bkg[2])))
+
+
+    def _dont_keep_variable(self, variable):
+        """Checks if a variable is fixed due to category. Fixed variables can't be used for classification and must not be saved in the array.
+        """
+
+        if variable=='N_LooseLeptons' and self._category!='all':
+            return True
+        elif variable=='N_TightLeptons' and self._category!='all':
+            return True
+        elif variable=='N_Jets' and self._category[0]!='6' and self._category!='all':
+            return True
+        elif variable=='N_BTagsM' and self._category!='54' and self._category!='64' and self._category!='all':
+            return True
+        else:
+            return False
