@@ -357,11 +357,7 @@ class GetVariables:
         """Checks if a variable is fixed due to category. Fixed variables can't be used for classification and must not be saved in the array.
         """
 
-        if variable=='N_LooseLeptons' and self._category!='all':
-            return True
-        elif variable=='N_TightLeptons' and self._category!='all':
-            return True
-        elif variable=='N_Jets' and self._category[0]!='6' and self._category!='all':
+        if variable=='N_Jets' and self._category[0]!='6' and self._category!='all':
             return True
         elif variable=='N_BTagsM' and self._category!='54' and self._category!='64' and self._category!='all':
             return True
