@@ -1,0 +1,12 @@
+Variables with standard deviation of zero can't be used for training.
+
+You have to check if the hard coded list in preprocessing.py contains all of your vector like variables.
+
+N_Jets, N_BTagsM: Can be fixed due to category, treatment for these variables is implemented in preprocessing.py
+N_TightLeptons, N_LooseLeptons: Fixed for single lepton events.
+Evt_MTW: Variable can't be used until bug in Boosted Analyzer framework is fixed.
+
+BDT_common5_input_dEta_fn: Can't be used in categories 53, 62.
+BDT_common5_input_best_higgs_mass: Can't be used in category 62.
+Evt_Deta_TopHad_BB_Ohio: Can't be used in category 53.
+Evt_Deta_TopLep_BB_Ohio: Can't be used in category 53.
