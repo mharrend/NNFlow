@@ -12,5 +12,7 @@ setup(name='NNFlow',
           'root-numpy',
           'tensorflow-gpu>=0.11.0*',
           'queuelib',
+          'scikit-learn>=0.18.2',
+          'graphviz>=0.7.1'
       ],
       zip_safe=True)
