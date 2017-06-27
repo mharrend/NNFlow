@@ -10,7 +10,7 @@ setup(name='NNFlow',
       install_requires=[
           'matplotlib',
           'root-numpy',
-          'tensorflow>=0.11.0*',
+          'tensorflow-gpu>=0.11.0*',
           'queuelib',
       ],
       zip_safe=True)
